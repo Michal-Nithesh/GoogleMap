@@ -30,16 +30,38 @@ async function initMap() {
         infowindow.open(map, marker)
     });*/
 
-    addMarker({ coords: position });
-    addMarker({ coords: { lat: 13.05558, lng: 80.2837 } });
+    addMarker({ position });
+    addMarker({
+        coords: { lat: 13.05558, lng: 80.2837 },
+        iconImage: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+        conten: '<h1>KanyaKumari</h1>'
+    });
 
     // Add Marker Function
     function addMarker(props) {
         const marker = new AdvancedMarkerElement({
             map: map,
             position: props.coords,
-            icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+            // icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+            // icon: props.iconImage
         });
+
+        // Check for Custom Icon
+        if (props.iconImage) {
+            //Set icon Image
+            marker.setIcon(props.iconImage);
+        }
+
+        //check Content
+        if (props.conten) {
+            const infowindow = new google.maps.InfoWindow({
+                content: props.conten
+            });
+
+            marker.addListerner('click', function () {
+                infowindow.open(map, marker)
+            });
+        }
     }
 
 }
